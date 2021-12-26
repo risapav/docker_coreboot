@@ -5,8 +5,8 @@ MAINTAINER Pavol Risa "risapav at gmail"
 # Prepare directory for tools
 ARG COREBOOT_PATH=/home/coreboot
 ARG PROJECT_PATH=${COREBOOT_PATH}/prj
-ARG BUILD_PATH=${PROJECT_PATH}/build
-ARG SCRIPTS_PATH=${PROJECT_PATH}/scripts
+ARG BUILD_PATH=${COREBOOT_PATH}/build
+ARG SCRIPTS_PATH=${COREBOOT_PATH}/scripts
 RUN mkdir -p ${BUILD_PATH} ${SCRIPTS_PATH} ${COREBOOT_PATH}
 WORKDIR ${COREBOOT_PATH}
 
@@ -56,10 +56,10 @@ RUN  git clone https://github.com/coreboot/coreboot && \
 	git clone https://github.com/coreboot/intel-microcode.git 3rdparty/intel-microcode/ && \
 	make crossgcc-i386 CPUS=$(nproc)
 	
-RUN make ${COREBOOT_PATH}/util/cbfstool CPUS=$(nproc) && \
-    make ${COREBOOT_PATH}/util/ifdtool CPUS=$(nproc) && \
-    make ${COREBOOT_PATH}/util/nvramtool CPUS=$(nproc) && \
-    make ${COREBOOT_PATH}/util/cbmem CPUS=$(nproc)
+RUN cd ${COREBOOT_PATH}/coreboot/util/cbfstool && make && \
+    cd ${COREBOOT_PATH}/coreboot/util/ifdtool && make  && \
+    cd ${COREBOOT_PATH}/coreboot/util/nvramtool && make && \
+    cd ${COREBOOT_PATH}/coreboot/util/cbmem && make  
 
 	
 # QEMU install
