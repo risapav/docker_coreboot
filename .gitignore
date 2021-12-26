@@ -30,3 +30,10 @@
 *.exe
 *.out
 *.app
+
+
+# coreboot specific
+*/build/
+*/stock_bios/
+coreboot_*
+coverage/

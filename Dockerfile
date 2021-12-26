@@ -35,7 +35,8 @@ RUN apt-get update && apt-get -y upgrade && \
         python3 \
         python-is-python3 \
         qemu-system-x86 \
-        udhcpd && \
+        udhcpd \
+        mc && \
 	apt-get clean
 
 #RUN update-ca-certificates
@@ -55,6 +56,12 @@ RUN  git clone https://github.com/coreboot/coreboot && \
 	git clone https://github.com/coreboot/intel-microcode.git 3rdparty/intel-microcode/ && \
 	make crossgcc-i386 CPUS=$(nproc)
 	
+RUN make ${COREBOOT_PATH}/util/cbfstool CPUS=$(nproc) && \
+    make ${COREBOOT_PATH}/util/ifdtool CPUS=$(nproc) && \
+    make ${COREBOOT_PATH}/util/nvramtool CPUS=$(nproc) && \
+    make ${COREBOOT_PATH}/util/cbmem CPUS=$(nproc)
+
+	
 # QEMU install
 #sudo apt-get install qemu binfmt-support qemu-user-static # Install the qemu packages
 #docker run --rm --privileged multiarch/qemu-user-static --reset -p yes # This step will execute the registering scripts
@@ -63,7 +70,7 @@ RUN  git clone https://github.com/coreboot/coreboot && \
 #aarch64
 
 # Change workdir
-WORKDIR ${COREBOOT_PATH}
+WORKDIR ${PROJECT_PATH}
 #ENTRYPOINT [${COREBOOT_PATH}]
 
 #CMD ["/bin/bash"]
