@@ -3,12 +3,12 @@ FROM debian:bookworm-slim
 MAINTAINER Pavol Risa "risapav at gmail"
 
 # Prepare directory for tools
-ARG COREBOOT_PATH=/home/coreboot
+ARG COREBOOT_PATH=/home/cb
 ARG PROJECT_PATH=${COREBOOT_PATH}/prj
 ARG BUILD_PATH=${COREBOOT_PATH}/build
 ARG SCRIPTS_PATH=${COREBOOT_PATH}/scripts
-RUN mkdir -p ${BUILD_PATH} ${SCRIPTS_PATH} ${COREBOOT_PATH}
-WORKDIR ${COREBOOT_PATH}
+ARG UTIL_PATH=${COREBOOT_PATH}/coreboot/util
+RUN mkdir -p ${BUILD_PATH} ${SCRIPTS_PATH} ${PROJECT_PATH}
 
 # set locale attrib
 RUN apt-get update && DEBIAN_FRONTEND=noninteractive apt-get -y --no-install-recommends install locales && \
@@ -19,17 +19,17 @@ RUN apt-get update && DEBIAN_FRONTEND=noninteractive apt-get -y --no-install-rec
 ENV LANG en_US.UTF-8 
 
 # toolchain install
-RUN apt-get update && apt-get -y upgrade && \
-	apt-get -y --no-install-recommends install apt-transport-https ca-certificates \
-		bison \
-		build-essential \
-		curl \
-		flex \
-		git \
-		gnat \
-		libncurses5-dev \
-		m4 \
-		zlib1g-dev \
+RUN apt-get update && apt-get -y --no-install-recommends install \
+	apt-transport-https ca-certificates \
+	bison \
+	build-essential \
+	curl \
+	flex \
+	git \
+	gnat \
+	libncurses5-dev \
+	m4 \
+	zlib1g-dev \
         iproute2 \
         jq \
         python3 \
@@ -39,27 +39,20 @@ RUN apt-get update && apt-get -y upgrade && \
         mc && \
 	apt-get clean
 
-#RUN update-ca-certificates
-#RUN useradd -p locked -m coreboot && \
-#	mkdir /root/.ssh && \
-#	chmod 700 /root/.ssh
-#COPY id_rsa id_rsa.pub /root/.ssh/ 
-#COPY sudoers /etc/ 
-#RUN chown root.root /etc/sudoers && chmod 440 /etc/sudoers
-	
+# prepare coreboot framework
 WORKDIR ${COREBOOT_PATH}
 	
-RUN  git clone https://github.com/coreboot/coreboot && \
+RUN git clone https://github.com/coreboot/coreboot && \
 	cd coreboot && \
 	git submodule update --init --recursive && \
 	git clone https://github.com/coreboot/blobs.git 3rdparty/blobs/ && \
 	git clone https://github.com/coreboot/intel-microcode.git 3rdparty/intel-microcode/ && \
 	make crossgcc-i386 CPUS=$(nproc)
 	
-RUN cd ${COREBOOT_PATH}/coreboot/util/cbfstool && make && \
-    cd ${COREBOOT_PATH}/coreboot/util/ifdtool && make  && \
-    cd ${COREBOOT_PATH}/coreboot/util/nvramtool && make && \
-    cd ${COREBOOT_PATH}/coreboot/util/cbmem && make  
+RUN cd ${UTIL_PATH/cbfstool && make && \
+	cd ${UTIL_PATH}/ifdtool && make  && \
+	cd ${UTIL_PATH}/nvramtool && make && \
+	cd ${UTIL_PATH}/cbmem && make  
 
 	
 # QEMU install
@@ -70,7 +63,5 @@ RUN cd ${COREBOOT_PATH}/coreboot/util/cbfstool && make && \
 #aarch64
 
 # Change workdir
-WORKDIR ${PROJECT_PATH}
-#ENTRYPOINT [${COREBOOT_PATH}]
+WORKDIR [${COREBOOT_PATH}]
 
-#CMD ["/bin/bash"]
