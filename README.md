@@ -1,4 +1,4 @@
-# coreboot-sdk
+# docker_coreboot
 A simple Docker container, prepared for developing and building apps, using crosscompiling for COREBOOT, based on coreboot/coreboot-sdk
 
 
@@ -6,7 +6,7 @@ A simple Docker container, prepared for developing and building apps, using cros
 
 Make sure git is installed.
 ```sh
-git clone https://github.com/risapav/coreboot-sdk && cd coreboot-sdk
+git clone https://github.com/risapav/docker_coreboot && cd docker_coreboot
 ```
 
 ## Build Docker container
@@ -14,13 +14,13 @@ git clone https://github.com/risapav/coreboot-sdk && cd coreboot-sdk
 It is very easy:
 
 ```sh
-docker build -t coreboot-sdk .
+docker build -t docker_coreboot .
 ```
 
 or:
 
 ```sh
-docker build https://github.com/risapav/coreboot-sdk.git -t coreboot-sdk
+docker build https://github.com/risapav/docker_coreboot.git -t docker_coreboot
 ```
 
 ## Run coreboot-sdk environment
@@ -36,6 +36,8 @@ docker run --rm --privileged \
 	-it coreboot-sdk
 ```
 ## Check if environment works properly
+
+# todo
 
 Inside container try run this:
 
