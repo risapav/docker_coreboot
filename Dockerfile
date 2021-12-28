@@ -3,7 +3,7 @@ FROM debian:bookworm-slim
 MAINTAINER Pavol Risa "risapav at gmail"
 
 # Prepare directory for tools
-ARG COREBOOT_PATH=/home/cb
+ARG COREBOOT_PATH=/home/coreboot
 ARG PROJECT_PATH=${COREBOOT_PATH}/prj
 ARG BUILD_PATH=${COREBOOT_PATH}/build
 ARG SCRIPTS_PATH=${COREBOOT_PATH}/scripts
@@ -49,7 +49,7 @@ RUN git clone https://github.com/coreboot/coreboot && \
 	git clone https://github.com/coreboot/intel-microcode.git 3rdparty/intel-microcode/ && \
 	make crossgcc-i386 CPUS=$(nproc)
 	
-RUN cd ${UTIL_PATH/cbfstool && make && \
+RUN cd ${UTIL_PATH}/cbfstool && make && \
 	cd ${UTIL_PATH}/ifdtool && make  && \
 	cd ${UTIL_PATH}/nvramtool && make && \
 	cd ${UTIL_PATH}/cbmem && make  
@@ -63,5 +63,5 @@ RUN cd ${UTIL_PATH/cbfstool && make && \
 #aarch64
 
 # Change workdir
-WORKDIR [${COREBOOT_PATH}]
+WORKDIR ${COREBOOT_PATH}
 
