@@ -14,13 +14,13 @@ git clone https://github.com/risapav/docker_coreboot && cd docker_coreboot
 It is very easy:
 
 ```sh
-docker build -t docker_coreboot .
+docker build -t coreboot-sdk .
 ```
 
 or:
 
 ```sh
-docker build https://github.com/risapav/docker_coreboot.git -t docker_coreboot
+docker build https://github.com/risapav/docker_coreboot.git -t coreboot-sdk
 ```
 
 ## Run coreboot-sdk environment
