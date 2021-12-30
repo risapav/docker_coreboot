@@ -26,11 +26,14 @@ RUN apt-get update && apt-get -y --no-install-recommends install \
         python-is-python3 \
         qemu-system-x86 \
         udhcpd \
-        mc && \
-	apt-get clean
+        mc \
+	&& apt-get clean \
+	&& rm -rf /var/lib/apt/lists/*
 
 # prepare coreboot framework
 WORKDIR ${COREBOOT_PATH}
 
-VOLUME [COREBOOT_PATH]" 
+VOLUME [${COREBOOT_PATH}]
+
+CMD ["/bin/bash"]
 	
