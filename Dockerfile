@@ -18,8 +18,7 @@ ARG SCRIPT_DIR=${ROOT_DIR}/scripts
 	
 # ENV LANG en_US.UTF-8 	
 	
-RUN apr-get update \
-	&& apt-get -y --no-install-recommends install \
+RUN apt-get update && apt-get -y --no-install-recommends install \
 		bison \
 		build-essential \
 		curl \
