@@ -1,6 +1,6 @@
 # FROM gcc:bullseye
 # FROM debian:stable-slim
-FROM archlinux:latest
+FROM archlinux:base-devel 
 
 MAINTAINER Pavol Risa "risapav at gmail"
 
@@ -38,10 +38,12 @@ ARG SCRIPT_DIR=${ROOT_DIR}/scripts
 RUN pacman -S base-devel curl git gcc-ada ncurses zlib \
 	&& mkdir -p ${ROOT_DIR}
 
+ENV LANG=en_US.UTF-8
+
 # prepare coreboot framework
 WORKDIR ${ROOT_DIR}
 
 VOLUME [${ROOT_DIR}]
 
-CMD ["/bin/bash"]
+CMD ["/usr/bin/bash"]
 
