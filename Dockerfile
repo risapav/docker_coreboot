@@ -35,7 +35,7 @@ ARG SCRIPT_DIR=${ROOT_DIR}/scripts
 #	&& rm -rf /var/lib/apt/lists/* \
 #	&& mkdir -p ${ROOT_DIR}
 
-RUN pacman -S base-devel curl git gcc-ada ncurses zlib \
+RUN pacman -S ca-certificates-utils base-devel curl git gcc-ada ncurses zlib \
 	&& mkdir -p ${ROOT_DIR}
 
 ENV LANG=en_US.UTF-8
