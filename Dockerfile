@@ -20,7 +20,8 @@ ENV LANG en_US.UTF-8
 	
 RUN apr-get update \
 	&& apt-get -y --no-install-recommends install \
-		apt-transport-https ca-certificates \
+		apt-transport-https \ 
+		ca-certificates \
 		autoconf \
 		autogen \
 		automake \
