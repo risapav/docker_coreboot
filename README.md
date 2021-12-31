@@ -29,6 +29,7 @@ Run Docker inside project directory.
 
 ```sh
 docker run --rm --privileged -it\
+	--user "$(id -u):$(id -g)" \
 	-v $PWD:/home/sdk \
 	-w /home/sdk \
 	coreboot-sdk
