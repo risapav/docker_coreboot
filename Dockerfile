@@ -1,6 +1,5 @@
 # FROM gcc:bullseye
-# FROM debian:stable-slim
-FROM archlinux:base-devel 
+FROM debian:stable-slim
 
 MAINTAINER Pavol Risa "risapav at gmail"
 
@@ -19,31 +18,28 @@ ARG SCRIPT_DIR=${ROOT_DIR}/scripts
 	
 # ENV LANG en_US.UTF-8 	
 	
-#RUN apt-get update && apt-get -y --no-install-recommends install \
-#		ca-certificates \
-#		bison \
-#		build-essential \
-#		curl \
-#		flex \
-#		git \
-#		gnat \
-#		libncurses5-dev \
-#		m4 \
-#		zlib1g-dev \
-#		mc \
-#	&& apt-get clean \
-#	&& rm -rf /var/lib/apt/lists/* \
-#	&& mkdir -p ${ROOT_DIR}
-
-RUN pacman -S ca-certificates-utils base-devel curl git gcc-ada ncurses zlib \
+RUN apt-get update && apt-get -y --no-install-recommends install \
+		apt-transport-https \
+		ca-certificates \
+		bison \
+		build-essential \
+		curl \
+		flex \
+		git \
+		gnat \
+		libncurses5-dev \
+		m4 \
+		zlib1g-dev \
+		mc \
+	&& apt-get clean \
+	&& rm -rf /var/lib/apt/lists/* \
 	&& mkdir -p ${ROOT_DIR}
 
-ENV LANG=en_US.UTF-8
 
 # prepare coreboot framework
 WORKDIR ${ROOT_DIR}
 
 VOLUME [${ROOT_DIR}]
 
-CMD ["/usr/bin/bash"]
+CMD ["/bin/bash"]
 
