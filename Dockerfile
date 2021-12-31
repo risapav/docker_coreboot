@@ -30,6 +30,8 @@ RUN apt-get update && apt-get -y --no-install-recommends install \
 		libncurses5-dev \
 		m4 \
 		zlib1g-dev \
+		python \
+		python-is-python3 \
 		mc \
 	&& apt-get clean \
 	&& rm -rf /var/lib/apt/lists/* \
