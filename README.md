@@ -25,15 +25,13 @@ docker build https://github.com/risapav/docker_coreboot.git -t coreboot-sdk
 
 ## Run coreboot-sdk environment
 
-Run Docker inside project directory. ST-link dongle should be plugged in USB.
+Run Docker inside project directory. 
 
 ```sh
-docker run --rm --privileged \
-	-p 4500:4500 \
-	-v /dev/bus/usb:/dev/bus/usb \
-	-v $PWD:/home/coreboot \
-	-w /home/coreboot\
-	-it coreboot-sdk
+docker run --rm --privileged -it\
+	-v $PWD:/home/sdk \
+	-w /home/sdk \
+	coreboot-sdk
 ```
 ## Check if environment works properly
 

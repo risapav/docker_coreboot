@@ -19,6 +19,7 @@ ENV LANG en_US.UTF-8
 # toolchain install
 RUN apt-get update && apt-get -y --no-install-recommends install \
 	apt-transport-https ca-certificates \
+	acpica-tools \
 	git \
         iproute2 \
         jq \
