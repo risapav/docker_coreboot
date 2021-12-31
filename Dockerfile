@@ -20,25 +20,16 @@ ENV LANG en_US.UTF-8
 	
 RUN apr-get update \
 	&& apt-get -y --no-install-recommends install \
-	#	apt-transport-https \ 
-		ca-certificates \
-		autoconf \
-		autogen \
-		automake \
 		bison \
 		build-essential \
 		curl \
-		flex \	
+		flex \
 		git \
 		gnat \
 		libncurses5-dev \
-        iproute2 \
-        jq \
-        python3 \
-        python-is-python3 \
-        qemu-system-x86 \
-        udhcpd \
-        mc \
+		m4 \
+		zlib1g-dev \
+		mc \
 	&& apt-get clean \
 	&& rm -rf /var/lib/apt/lists/* \
 	&& mkdir -p ${ROOT_DIR}
