@@ -16,7 +16,7 @@ ARG SCRIPT_DIR=${ROOT_DIR}/scripts
 #	&& update-locale LANG=en_US.UTF-8 \
 #	&& apt-transport-https ca-certificates 
 	
-# ENV LANG en_US.UTF-8 	
+
 	
 RUN apt-get update && apt-get -y --no-install-recommends install \
 		apt-transport-https \
@@ -35,6 +35,7 @@ RUN apt-get update && apt-get -y --no-install-recommends install \
 	&& rm -rf /var/lib/apt/lists/* \
 	&& mkdir -p ${ROOT_DIR}
 
+ENV LANG en_US.UTF-8 	
 
 # prepare coreboot framework
 WORKDIR ${ROOT_DIR}
