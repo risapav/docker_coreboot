@@ -19,6 +19,7 @@ ARG SCRIPT_DIR=${ROOT_DIR}/scripts
 # ENV LANG en_US.UTF-8 	
 	
 RUN apt-get update && apt-get -y --no-install-recommends install \
+		ca-certificates \
 		bison \
 		build-essential \
 		curl \
