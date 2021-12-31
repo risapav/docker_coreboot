@@ -20,6 +20,8 @@ ENV LANG en_US.UTF-8
 RUN apt-get update && apt-get -y --no-install-recommends install \
 	apt-transport-https ca-certificates \
 	acpica-tools \
+	bison \
+	flex \	
 	git \
         iproute2 \
         jq \
