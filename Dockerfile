@@ -11,6 +11,9 @@ ARG SCRIPT_DIR=${ROOT_DIR}/scripts
 RUN apt-get update && apt-get -y --no-install-recommends install \
 		apt-transport-https \
 		ca-certificates \
+		autoconf \
+		automake \
+		gettext \
 		bison \
 		build-essential \
 		curl \
