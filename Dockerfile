@@ -13,7 +13,9 @@ RUN apt-get update && apt-get -y --no-install-recommends install \
 		ca-certificates \
 		autoconf \
 		automake \
+		autopoint \
 		gettext \
+		gnulib \
 		bison \
 		build-essential \
 		curl \
