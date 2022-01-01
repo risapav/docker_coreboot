@@ -28,6 +28,7 @@ RUN apt-get update && apt-get -y --no-install-recommends install \
 		zlib1g-dev \
 		python3 \
 		python-is-python3 \
+		screen \
 		mc \
 	&& apt-get clean \
 	&& rm -rf /var/lib/apt/lists/* \
