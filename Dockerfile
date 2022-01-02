@@ -25,12 +25,13 @@ RUN apt-get update && apt-get -y --no-install-recommends install \
 		gnat \
 		libopts25-dev \
 		libncurses5-dev \
-		 libfreetype6-dev \
+		libfreetype6-dev \
 		pkg-config \
 		m4 \
 		zlib1g-dev \
 		python3 \
 		python-is-python3 \
+		unifont \
 		uuid-dev \
 		nasm \
 		mc \
