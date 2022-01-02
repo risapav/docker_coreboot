@@ -14,7 +14,6 @@ RUN apt-get update && apt-get -y --no-install-recommends install \
 		autoconf \
 		automake \
 		autopoint \
-		freetype2 \
 		gettext \
 		gnulib \
 		libtool \
@@ -26,6 +25,7 @@ RUN apt-get update && apt-get -y --no-install-recommends install \
 		gnat \
 		libopts25-dev \
 		libncurses5-dev \
+		 libfreetype6-dev \
 		pkg-config \
 		m4 \
 		zlib1g-dev \
