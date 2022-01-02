@@ -23,7 +23,9 @@ RUN apt-get update && apt-get -y --no-install-recommends install \
 		flex \
 		git \
 		gnat \
+		libopts25-dev \
 		libncurses5-dev \
+		pkg-config \
 		m4 \
 		zlib1g-dev \
 		python3 \
