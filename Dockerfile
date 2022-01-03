@@ -42,7 +42,7 @@ RUN apt-get update && apt-get -y --no-install-recommends install \
 	&& rm -rf /var/lib/apt/lists/* \
 	&& mkdir -p ${ROOT_DIR} \
 	&& mkdir -p /opt/xgcc \
-	&& echo "export PATH=$PATH:/opt/xgcc/bin" >> ${DOCKER_ROOT}/.bashrc 
+	&& echo "export PATH=$PATH:/opt/xgcc/bin" >> ${ROOT_DIR}/.bashrc 
 	
 
 COPY ${TOOLCHAIN_SRC} /opt/xgcc
