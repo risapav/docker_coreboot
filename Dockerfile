@@ -46,7 +46,7 @@ RUN apt-get update && apt-get -y --no-install-recommends install \
 	&& echo "export PATH=$PATH:/opt/xgcc/bin" >> ${ROOT_DIR}/.bashrc 
 	
 
-ADD ${TOOLCHAIN_SRC} /opt/xgcc/
+ADD ${TOOLCHAIN_SRC}/* /opt/xgcc/
 
 # prepare coreboot framework
 WORKDIR ${ROOT_DIR}
