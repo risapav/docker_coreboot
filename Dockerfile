@@ -38,8 +38,9 @@ RUN apt-get update && apt-get -y --no-install-recommends install \
 		mc \
 	&& apt-get clean \
 	&& rm -rf /var/lib/apt/lists/* \
-	&& echo "export PATH=$PATH:/opt/xgcc/bin" >> ${DOCKER_ROOT}/.bashrc \
-	&& mkdir -p ${ROOT_DIR}} /opt/xgcc 
+	&& mkdir -p ${ROOT_DIR}} /opt/xgcc \
+	&& echo "export PATH=$PATH:/opt/xgcc/bin" >> ${DOCKER_ROOT}/.bashrc 
+	
 
 ENV LANG en_US.UTF-8 	
 
