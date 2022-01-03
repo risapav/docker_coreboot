@@ -4,6 +4,7 @@ FROM debian:stable-slim
 MAINTAINER Pavol Risa "risapav at gmail"
 
 # Prepare toolchain
+ARG TOOLCHAIN_SRC
 ENV TOOLCHAIN_SRC="~/coreboot"
 # Prepare directory for tools
 ARG DOCKER_ROOT="/home/sdk"
