@@ -42,8 +42,7 @@ RUN apt-get update && apt-get -y --no-install-recommends install \
 
 ENV LANG en_US.UTF-8 	
 
-WORKDIR /opt/xgcc
-ADD ${TOOLCHAIN_SRC}/xgcc 
+ADD ${TOOLCHAIN_SRC}/xgcc /opt/xgcc
 
 # prepare coreboot framework
 WORKDIR ${ROOT_DIR}
