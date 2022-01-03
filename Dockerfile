@@ -3,6 +3,8 @@ FROM debian:stable-slim
 
 MAINTAINER Pavol Risa "risapav at gmail"
 
+# Prepare toolchain
+ARG TOOLCHAIN_SRC="~/coreboot"
 # Prepare directory for tools
 ARG DOCKER_ROOT="/home/sdk"
 ARG ROOT_DIR=${DOCKER_ROOT}
@@ -33,13 +35,19 @@ RUN apt-get update && apt-get -y --no-install-recommends install \
 		python-is-python3 \
 		unifont \
 		uuid-dev \
-		nasm \
 		mc \
 	&& apt-get clean \
 	&& rm -rf /var/lib/apt/lists/* \
-	&& mkdir -p ${ROOT_DIR}
+	&& mkdir -p ${ROOT_DIR} \
+	RUN mkdir -k /opt/xgcc 
+
+#		nasm \
 
 ENV LANG en_US.UTF-8 	
+
+WORKDIR /opt
+
+ADD ${TOOLCHAIN_SRC}/xgcc /opt/xgcc
 
 # prepare coreboot framework
 WORKDIR ${ROOT_DIR}
