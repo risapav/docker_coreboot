@@ -25,7 +25,6 @@ RUN apt-get update && apt-get -y --no-install-recommends install \
 		flex \
 		git \
 		gnat \
-		qemm \
 		libopts25-dev \
 		libncurses5-dev \
 		libfreetype6-dev \
