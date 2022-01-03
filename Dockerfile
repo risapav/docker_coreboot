@@ -40,7 +40,7 @@ RUN apt-get update && apt-get -y --no-install-recommends install \
 		mc \
 	&& apt-get clean \
 	&& rm -rf /var/lib/apt/lists/* \
-	&& mkdir -p ${ROOT_DIR}} \
+	&& mkdir -p ${ROOT_DIR} \
 	&& mkdir -p /opt/xgcc \
 	&& echo "export PATH=$PATH:/opt/xgcc/bin" >> ${DOCKER_ROOT}/.bashrc 
 	
