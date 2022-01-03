@@ -38,14 +38,12 @@ RUN apt-get update && apt-get -y --no-install-recommends install \
 		mc \
 	&& apt-get clean \
 	&& rm -rf /var/lib/apt/lists/* \
-	&& mkdir -p ${ROOT_DIR} \
-	&& mkdir -p /opt/xgcc 
-
-#		nasm \
+	&& mkdir -p ${ROOT_DIR} /opt/xgcc 
 
 ENV LANG en_US.UTF-8 	
 
-ADD ${TOOLCHAIN_SRC}/xgcc /opt/xgcc/
+WORKDIR /opt/xgcc
+ADD ${TOOLCHAIN_SRC}/xgcc 
 
 # prepare coreboot framework
 WORKDIR ${ROOT_DIR}
