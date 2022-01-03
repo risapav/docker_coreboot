@@ -44,7 +44,7 @@ ENV LANG en_US.UTF-8
 # prepare coreboot framework
 WORKDIR ${ROOT_DIR}
 
-VOLUME [${ROOT_DIR}]
+VOLUME ${ROOT_DIR}
 
 CMD ["/bin/bash"]
 
