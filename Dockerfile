@@ -25,6 +25,7 @@ RUN apt-get update && apt-get -y --no-install-recommends install \
 		flex \
 		git \
 		gnat \
+		qemm \
 		libopts25-dev \
 		libncurses5-dev \
 		libfreetype6-dev \
@@ -38,11 +39,12 @@ RUN apt-get update && apt-get -y --no-install-recommends install \
 		mc \
 	&& apt-get clean \
 	&& rm -rf /var/lib/apt/lists/* \
+	&& echo "export PATH=$PATH:/opt/xgcc/bin" >> ${DOCKER_ROOT}/.bashrc \
 	&& mkdir -p ${ROOT_DIR} /opt/xgcc 
 
 ENV LANG en_US.UTF-8 	
 
-ADD ${TOOLCHAIN_SRC}/xgcc /opt/xgcc
+ADD ${TOOLCHAIN_SRC}/ /opt/xgcc
 
 # prepare coreboot framework
 WORKDIR ${ROOT_DIR}
