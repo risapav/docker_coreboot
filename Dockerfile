@@ -47,7 +47,7 @@ ENV LANG en_US.UTF-8
 
 WORKDIR /opt
 
-ADD ${TOOLCHAIN_SRC}/xgcc /opt/xgcc/
+ADD ${TOOLCHAIN_SRC}/xgcc /opt/xgcc
 
 # prepare coreboot framework
 WORKDIR ${ROOT_DIR}
