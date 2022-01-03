@@ -39,7 +39,7 @@ RUN apt-get update && apt-get -y --no-install-recommends install \
 	&& apt-get clean \
 	&& rm -rf /var/lib/apt/lists/* \
 	&& mkdir -p ${ROOT_DIR} \
-	RUN mkdir -k /opt/xgcc 
+	RUN mkdir -p /opt/xgcc 
 
 #		nasm \
 
