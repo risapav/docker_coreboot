@@ -4,8 +4,9 @@ FROM debian:stable-slim
 MAINTAINER Pavol Risa "risapav at gmail"
 
 # Prepare toolchain
-ARG TOOLCHAIN_SRC
-ENV TOOLCHAIN_SRC="~/coreboot"
+ARG XGCC_DIR="/opt/xgcc"
+ARG COREBOOT_SDK_TAG="4.15"
+ARG COREBOOT_DIR="/tmp/coreboot"
 # Prepare directory for tools
 ARG DOCKER_ROOT="/home/sdk"
 ARG ROOT_DIR=${DOCKER_ROOT}
@@ -41,13 +42,15 @@ RUN apt-get update && apt-get -y --no-install-recommends install \
 		mc \
 	&& apt-get clean \
 	&& rm -rf /var/lib/apt/lists/* \
-	&& mkdir -p ${ROOT_DIR} \
-	&& mkdir -p /opt/xgcc \
-	&& echo "export PATH=$PATH:/opt/xgcc/bin" >> ${ROOT_DIR}/.bashrc 
+	&& mkdir -p ${ROOT_DIR} 
 	
-
-ADD ${TOOLCHAIN_SRC}/* /opt/xgcc/
-
+RUN echolog "cloning Coreboot framework from github" \
+	&& git clone --branch $COREBOOT_SDK_TAG https://github.com/coreboot/coreboot ${COREBOOT_DIR} \
+	&& mkdir -p ${XGCC_DIR} \
+	&& echo "export PATH=$PATH:${XGCC_DIR}/bin" >> ${ROOT_DIR}/.bashrc \
+	&& cd ${COREBOOT_DIR} \
+	&& make crossgcc-$ARCH CPUS=$(nproc) && rm -R /tmp/*
+	
 # prepare coreboot framework
 WORKDIR ${ROOT_DIR}
 
