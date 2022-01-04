@@ -21,31 +21,17 @@ ARG SCRIPT_DIR=${ROOT_DIR}/scripts
 ENV LANG en_US.UTF-8 
 
 RUN apt-get update && apt-get -y --no-install-recommends install \
-		apt-transport-https \
-		ca-certificates \
-		autoconf \
-		automake \
-		autopoint \
-		gettext \
-		gnulib \
-		libtool \
-		bison \
-		build-essential \
+		apt-transport-https ca-certificates \
+		autoconf automake autopoint \
+		bison build-essential \
 		curl \
 		flex \
-		git \
-		gnat \
-		libopts25-dev \
-		libncurses5-dev \
-		libfreetype6-dev \
-		pkg-config \
-		m4 \
+		git gettext gnat gnulib \
+		libopts25-dev libncurses5-dev libfreetype6-dev libtool \
+		m4 mc \
+		pkg-config python3 python-is-python3 \
+		unifont uuid-dev \
 		zlib1g-dev \
-		python3 \
-		python-is-python3 \
-		unifont \
-		uuid-dev \
-		mc \
 	&& apt-get clean \
 	&& rm -rf /var/lib/apt/lists/* \
 	&& mkdir -p ${ROOT_DIR} 
@@ -57,7 +43,9 @@ RUN echo "cloning Coreboot framework from github" \
 RUN mkdir -p ${XGCC_DIR} \
 	&& echo "export PATH=$PATH:${XGCC_DIR}/bin" >> ${ROOT_DIR}/.bashrc \
 	&& cd ${COREBOOT_DIR} 
-RUN make crossgcc-${ARCH} CPUS=$(nproc) 
+RUN ${COREBOOT_DIR}/utll/xcompile ${XGCC_DIR} 
+
+# make crossgcc-${ARCH} CPUS=$(nproc) 
 
 RUN rm -R /tmp/*
 	
