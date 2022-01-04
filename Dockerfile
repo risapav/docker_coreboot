@@ -37,14 +37,14 @@ RUN apt-get update && apt-get -y --no-install-recommends install \
 	&& rm -rf /var/lib/apt/lists/* \
 	&& mkdir -p ${ROOT_DIR} ${BUILD_DIR} 
 	
-RUN echo "cloning Coreboot framework from github" \
-	&& echo "${DOCKER_ROOT} ${ROOT_DIR} ${XGCC_DIR} ${COREBOOT_DIR} ${COREBOOT_SDK_TAG} ${ARCH}" \
-	&& git clone  --verbose --branch $COREBOOT_SDK_TAG https://github.com/coreboot/coreboot ${COREBOOT_DIR} 
+# RUN echo "cloning Coreboot framework from github" \
+#	&& echo "${DOCKER_ROOT} ${ROOT_DIR} ${XGCC_DIR} ${COREBOOT_DIR} ${COREBOOT_SDK_TAG} ${ARCH}" \
+#	&& git clone  --verbose --branch $COREBOOT_SDK_TAG https://github.com/coreboot/coreboot ${COREBOOT_DIR} 
 	
 RUN mkdir -p ${XGCC_DIR} \
 	&& echo "export PATH=$PATH:${XGCC_DIR}/bin" >> ${ROOT_DIR}/.bashrc \
 	&& cd ${COREBOOT_DIR} 
-RUN ls -la ${COREBOOT_DIR} && .${COREBOOT_DIR}/util/xcompile ${XGCC_DIR} 
+RUN ls -la ${COREBOOT_DIR} && .${BUILD_DIR}/util/xcompile ${XGCC_DIR} 
 
 # make crossgcc-${ARCH} CPUS=$(nproc) 
 
