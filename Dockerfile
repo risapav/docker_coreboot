@@ -38,8 +38,8 @@ RUN apt-get update && apt-get -y --no-install-recommends install \
 	&& mkdir -p ${ROOT_DIR} ${BUILD_DIR} ${COREBOOT_DIR} ${XGCC_DIR} \
 	&& echo "export PATH=$PATH:${XGCC_DIR}/bin" >> ${ROOT_DIR}/.bashrc \
 	&& echo "${BUILD_DIR} ${COREBOOT_DIR}/" \
-	&& ls -la ${COREBOOT_DIR} \
-	&& ls -la ${BUILD_DIR}
+	&& echo "${COREBOOT_DIR}: $(ls -la ${COREBOOT_DIR})" \
+	&& echo "${BUILD_DIR}: $(ls -la ${BUILD_DIR})"
 
 ADD ${BUILD_DIR} ${COREBOOT_DIR}/
 
