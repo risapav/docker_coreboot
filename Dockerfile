@@ -43,7 +43,7 @@ RUN echo "cloning Coreboot framework from github" \
 RUN mkdir -p ${XGCC_DIR} \
 	&& echo "export PATH=$PATH:${XGCC_DIR}/bin" >> ${ROOT_DIR}/.bashrc \
 	&& cd ${COREBOOT_DIR} 
-RUN ls -la ${COREBOOT_DIR} && ./${COREBOOT_DIR}/util/xcompile ${XGCC_DIR} 
+RUN ls -la ${COREBOOT_DIR} && .${COREBOOT_DIR}/util/xcompile ${XGCC_DIR} 
 
 # make crossgcc-${ARCH} CPUS=$(nproc) 
 
