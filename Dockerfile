@@ -17,6 +17,7 @@ ARG COREBOOT_DIR="/tmp/coreboot"
 ARG DOCKER_ROOT="/home/sdk"
 ARG ROOT_DIR=${DOCKER_ROOT}
 ARG SCRIPT_DIR=${ROOT_DIR}/scripts
+ARG BUILD_DIR=${ROOT_DIR}/build
 
 ENV LANG en_US.UTF-8 
 
@@ -34,7 +35,7 @@ RUN apt-get update && apt-get -y --no-install-recommends install \
 		zlib1g-dev \
 	&& apt-get clean \
 	&& rm -rf /var/lib/apt/lists/* \
-	&& mkdir -p ${ROOT_DIR} 
+	&& mkdir -p ${ROOT_DIR} ${BUILD_DIR} 
 	
 RUN echo "cloning Coreboot framework from github" \
 	&& echo "${DOCKER_ROOT} ${ROOT_DIR} ${XGCC_DIR} ${COREBOOT_DIR} ${COREBOOT_SDK_TAG} ${ARCH}" \
