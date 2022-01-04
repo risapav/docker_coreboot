@@ -6,11 +6,11 @@ MAINTAINER Pavol Risa "risapav at gmail"
 # Prepare toolchain
 ARG XGCC_DIR="/opt/xgcc"
 
-ARG COREBOOT_SDK_TAG
-ENV COREBOOT_SDK_TAG=${COREBOOT_SDK_TAG:"4.12"}
+ARG COREBOOT_SDK_TAG="4.12"
+ENV COREBOOT_SDK_TAG=${COREBOOT_SDK_TAG}
 
-ARG ARCH
-ENV ARCH=${ARCH:"i386"}
+ARG ARCH="i386"
+ENV ARCH=${ARCH}
 
 ARG COREBOOT_DIR="/tmp/coreboot"
 # Prepare directory for tools
