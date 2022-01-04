@@ -42,7 +42,7 @@ RUN apt-get update && apt-get -y --no-install-recommends install \
 ADD ${BUILD_DIR} ${COREBOOT_DIR}/
 
 #	&& cd ${COREBOOT_DIR} 
-RUN .${COREBOOT_DIR}/util/xcompile ${XGCC_DIR} 
+RUN ls -la ${COREBOOT_DIR} && .${COREBOOT_DIR}/util/xcompile ${XGCC_DIR} 
 
 # make crossgcc-${ARCH} CPUS=$(nproc) 
 
