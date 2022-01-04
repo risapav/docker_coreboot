@@ -7,7 +7,10 @@ MAINTAINER Pavol Risa "risapav at gmail"
 ARG XGCC_DIR="/opt/xgcc"
 
 ARG COREBOOT_SDK_TAG
-ENV COREBOOT_SDK_TAG="4.12"
+ENV COREBOOT_SDK_TAG=${COREBOOT_SDK_TAG:"4.12"}
+
+ARG ARCH
+ENV ARCH=${ARCH:"i386"}
 
 ARG COREBOOT_DIR="/tmp/coreboot"
 # Prepare directory for tools
@@ -48,12 +51,12 @@ RUN apt-get update && apt-get -y --no-install-recommends install \
 	&& mkdir -p ${ROOT_DIR} 
 	
 RUN echo "cloning Coreboot framework from github" \
-	&& echo "${DOCKER_ROOT} ${ROOT_DIR} ${XGCC_DIR} ${COREBOOT_DIR} ${COREBOOT_SDK_TAG}" \
+	&& echo "${DOCKER_ROOT} ${ROOT_DIR} ${XGCC_DIR} ${COREBOOT_DIR} ${COREBOOT_SDK_TAG} ${ARCH}" \
 	&& git clone --branch $COREBOOT_SDK_TAG https://github.com/coreboot/coreboot ${COREBOOT_DIR} \
 	&& mkdir -p ${XGCC_DIR} \
 	&& echo "export PATH=$PATH:${XGCC_DIR}/bin" >> ${ROOT_DIR}/.bashrc \
 	&& cd ${COREBOOT_DIR} \
-	&& make crossgcc-$ARCH CPUS=$(nproc) && rm -R /tmp/*
+	&& make crossgcc-${ARCH} CPUS=$(nproc) && rm -R /tmp/*
 	
 # prepare coreboot framework
 WORKDIR ${ROOT_DIR}
