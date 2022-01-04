@@ -42,9 +42,9 @@ RUN apt-get update && apt-get -y --no-install-recommends install \
 #	&& git clone  --verbose --branch $COREBOOT_SDK_TAG https://github.com/coreboot/coreboot ${COREBOOT_DIR} 
 	
 RUN mkdir -p ${XGCC_DIR} \
-	&& echo "export PATH=$PATH:${XGCC_DIR}/bin" >> ${ROOT_DIR}/.bashrc \
-	&& cd ${COREBOOT_DIR} 
-RUN ls -la ${COREBOOT_DIR} && .${BUILD_DIR}/util/xcompile ${XGCC_DIR} 
+	&& echo "export PATH=$PATH:${XGCC_DIR}/bin" >> ${ROOT_DIR}/.bashrc 
+#	&& cd ${COREBOOT_DIR} 
+RUN .${BUILD_DIR}/util/xcompile ${XGCC_DIR} 
 
 # make crossgcc-${ARCH} CPUS=$(nproc) 
 
