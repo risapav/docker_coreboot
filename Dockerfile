@@ -44,7 +44,7 @@ RUN apt-get update && apt-get -y --no-install-recommends install \
 	&& rm -rf /var/lib/apt/lists/* \
 	&& mkdir -p ${ROOT_DIR} 
 	
-RUN echolog "cloning Coreboot framework from github" \
+RUN echo "cloning Coreboot framework from github" \
 	&& git clone --branch $COREBOOT_SDK_TAG https://github.com/coreboot/coreboot ${COREBOOT_DIR} \
 	&& mkdir -p ${XGCC_DIR} \
 	&& echo "export PATH=$PATH:${XGCC_DIR}/bin" >> ${ROOT_DIR}/.bashrc \
