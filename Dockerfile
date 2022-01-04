@@ -5,7 +5,10 @@ MAINTAINER Pavol Risa "risapav at gmail"
 
 # Prepare toolchain
 ARG XGCC_DIR="/opt/xgcc"
-ARG COREBOOT_SDK_TAG="4.15"
+
+ARG COREBOOT_SDK_TAG
+ENV COREBOOT_SDK_TAG="4.12"
+
 ARG COREBOOT_DIR="/tmp/coreboot"
 # Prepare directory for tools
 ARG DOCKER_ROOT="/home/sdk"
@@ -45,6 +48,7 @@ RUN apt-get update && apt-get -y --no-install-recommends install \
 	&& mkdir -p ${ROOT_DIR} 
 	
 RUN echo "cloning Coreboot framework from github" \
+	echo "$DOCKER_ROOT $ROOT_DIR $XGCC_DIR $COREBOOT_DIR $COREBOOT_SDK_TAG"
 	&& git clone --branch $COREBOOT_SDK_TAG https://github.com/coreboot/coreboot ${COREBOOT_DIR} \
 	&& mkdir -p ${XGCC_DIR} \
 	&& echo "export PATH=$PATH:${XGCC_DIR}/bin" >> ${ROOT_DIR}/.bashrc \
