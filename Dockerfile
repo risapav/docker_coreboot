@@ -52,11 +52,14 @@ RUN apt-get update && apt-get -y --no-install-recommends install \
 	
 RUN echo "cloning Coreboot framework from github" \
 	&& echo "${DOCKER_ROOT} ${ROOT_DIR} ${XGCC_DIR} ${COREBOOT_DIR} ${COREBOOT_SDK_TAG} ${ARCH}" \
-	&& git clone --branch $COREBOOT_SDK_TAG https://github.com/coreboot/coreboot ${COREBOOT_DIR} \
-	&& mkdir -p ${XGCC_DIR} \
+	&& git clone  --verbose --branch $COREBOOT_SDK_TAG https://github.com/coreboot/coreboot ${COREBOOT_DIR} 
+	
+RUN mkdir -p ${XGCC_DIR} \
 	&& echo "export PATH=$PATH:${XGCC_DIR}/bin" >> ${ROOT_DIR}/.bashrc \
-	&& cd ${COREBOOT_DIR} \
-	&& make crossgcc-${ARCH} CPUS=$(nproc) && rm -R /tmp/*
+	&& cd ${COREBOOT_DIR} 
+RUN make crossgcc-${ARCH} CPUS=$(nproc) 
+
+RUN rm -R /tmp/*
 	
 # prepare coreboot framework
 WORKDIR ${ROOT_DIR}
