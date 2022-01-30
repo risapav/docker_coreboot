@@ -1,59 +1,140 @@
-# FROM gcc:bullseye
-FROM debian:stable-slim
+﻿# This dockerfile is not meant to be used directly by docker.  The
+# {{}} variables are replaced with values by the makefile.  Please generate
+# the docker image for this file by running:
+#
+#   make coreboot-sdk
+#
+# Variables can be updated on the make command line or left blank to use
+# the default values set by the makefile.
+#
+#  SDK_VERSION is used to name the version of the coreboot sdk to use.
+#              Typically, this corresponds to the toolchain version.  This
+#              is used to identify this docker image.
+#  DOCKER_COMMIT is the coreboot Commit-ID to build the toolchain from.
 
-MAINTAINER Pavol Risa "risapav at gmail"
+FROM debian:sid AS coreboot-sdk
+MAINTAINER Martin Roth <martin@coreboot.org>
 
-# Prepare toolchain
-ARG XGCC_DIR="/opt/xgcc"
+ARG DEBIAN_FRONTEND=noninteractive
 
-ARG COREBOOT_SDK_TAG="4.12"
-ENV COREBOOT_SDK_TAG=${COREBOOT_SDK_TAG}
-
-ARG ARCH="i386"
-ENV ARCH=${ARCH}
-
-ARG COREBOOT_DIR="/tmp/coreboot"
-# Prepare directory for tools
-ARG DOCKER_ROOT="/home/sdk"
-ARG ROOT_DIR=${DOCKER_ROOT}
-ARG SCRIPT_DIR=${ROOT_DIR}/scripts
-ARG BUILD_DIR=${ROOT_DIR}/build
-
-ENV LANG en_US.UTF-8 
-
-RUN apt-get update && apt-get -y --no-install-recommends install \
-		apt-transport-https ca-certificates \
-		autoconf automake autopoint \
-		bison build-essential \
+RUN \
+	useradd -p locked -m coreboot && \
+	apt-get -qq update && \
+	apt-get -qqy install \
+		bc \
+		bison \
+		bsdextrautils \
+		bzip2 \
+		ccache \
+		cmake \
+		cscope \
 		curl \
+		device-tree-compiler \
+		dh-autoreconf \
+		diffutils \
+		doxygen \
+		exuberant-ctags \
 		flex \
-		git gettext gnat gnulib \
-		libopts25-dev libncurses5-dev libfreetype6-dev libtool \
-		m4 mc \
-		pkg-config python3 python-is-python3 \
-		unifont uuid-dev \
+		g++ \
+		gawk \
+		gcc \
+		gettext \
+		git \
+		gnat \
+		gnulib \
+		golang \
+		graphviz \
+		lcov \
+		libcrypto++-dev \
+		libcurl4 \
+		libcurl4-openssl-dev \
+		libelf-dev \
+		libfreetype6-dev \
+		libftdi-dev \
+		libftdi1-dev \
+		libglib2.0-dev \
+		libgmp-dev \
+		libjaylink-dev \
+		liblzma-dev \
+		libncurses5-dev \
+		libpci-dev \
+		libreadline-dev \
+		libssl-dev \
+		libusb-1.0-0-dev \
+		libusb-dev \
+		libxml2-dev \
+		libyaml-dev \
+		m4 \
+		make \
+		msitools \
+		nasm \
+		openssl \
+		patch \
+		pbzip2 \
+		pkg-config \
+		python2 \
+		python3 \
+		qemu \
+		rsync \
+		shellcheck \
+		subversion \
+		unifont \
+		uuid-dev \
+		vim-common \
+		wget \
+		xz-utils \
 		zlib1g-dev \
 	&& apt-get clean \
-	&& rm -rf /var/lib/apt/lists/* \
-	&& mkdir -p ${ROOT_DIR} ${BUILD_DIR} ${COREBOOT_DIR} ${XGCC_DIR} \
-	&& echo "export PATH=$PATH:${XGCC_DIR}/bin" >> ${ROOT_DIR}/.bashrc \
-	&& echo "${BUILD_DIR} ${COREBOOT_DIR}/" \
-	&& echo "${COREBOOT_DIR}: $(ls -la ${COREBOOT_DIR})" \
-	&& echo "${BUILD_DIR}: $(ls -la ${BUILD_DIR})"
+	&& update-alternatives --install /usr/bin/python python /usr/bin/python2 1 \
+	&& ln -s /usr/bin/automake /usr/bin/automake-1.15 \
+	&& ln -s /usr/bin/aclocal /usr/bin/aclocal-1.15
 
-ADD ${BUILD_DIR} ${COREBOOT_DIR}/
-
-#	&& cd ${COREBOOT_DIR} 
-RUN ls -la ${COREBOOT_DIR} && .${COREBOOT_DIR}/util/xcompile ${XGCC_DIR} 
-
-# make crossgcc-${ARCH} CPUS=$(nproc) 
-
-RUN rm -R /tmp/*
+RUN \
+	cd /tmp && \
+	git clone https://review.coreboot.org/coreboot && \
+	cd coreboot && \
+	git checkout {{DOCKER_COMMIT}}; \
+	if echo {{CROSSGCC_PARAM}} | grep -q ^all; then \
+		make -C /tmp/coreboot/util/crossgcc/ \
+			build_clang \
+			BUILD_LANGUAGES=c,ada \
+			CPUS=$(nproc) \
+			DEST=/opt/xgcc; \
+	fi; \
+	make -C /tmp/coreboot/util/crossgcc/ \
+		{{CROSSGCC_PARAM}} \
+		BUILD_LANGUAGES=c,ada \
+		CPUS=$(nproc) \
+		DEST=/opt/xgcc && \
+	mkdir /home/coreboot/.ccache && \
+	chown coreboot:coreboot /home/coreboot/.ccache && \
+	mkdir /home/coreboot/cb_build && \
+	chown coreboot:coreboot /home/coreboot/cb_build && \
+	echo "export PATH=$PATH:/opt/xgcc/bin" >> /home/coreboot/.bashrc && \
+	echo "export SDK_VERSION={{SDK_VERSION}}" >> /home/coreboot/.bashrc && \
+	echo "export SDK_COMMIT={{DOCKER_COMMIT}}" >> /home/coreboot/.bashrc && \	
+	rm -rf /tmp/coreboot
 	
-# prepare coreboot framework
-WORKDIR ${ROOT_DIR}
+ENV PATH $PATH:/opt/xgcc/bin
+ENV SDK_VERSION={{SDK_VERSION}}
+ENV SDK_COMMIT={{DOCKER_COMMIT}}
+USER coreboot
 
-VOLUME ${ROOT_DIR}
+#FROM coreboot-sdk
+# Test the built image
+#RUN mkdir -p /tmp/work && \
+#  cd /tmp/work && \
+#  git clone https://review.coreboot.org/bios_extract.git && \
+#  make -C bios_extract && \
+#  git clone https://review.coreboot.org/memtest86plus.git && \
+#  make -C memtest86plus && \
+#  git clone https://review.coreboot.org/flashrom.git && \
+#  CONFIG_EVERYTHING=yes make -C flashrom && \
+#  git clone https://review.coreboot.org/em100.git && \
+#  make -C em100 && \
+#  git clone https://review.coreboot.org/coreboot.git && \
+#  (cd coreboot && git submodule update --init --checkout )
+  ### && \
+  ### make -C coreboot CPUS=$(nproc) test-abuild
 
-CMD ["/bin/bash"]
-
+VOLUME /home/coreboot
